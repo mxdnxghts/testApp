@@ -3,6 +3,7 @@ using AutoMapper;
 using Dadata;
 using Dadata.Model;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Serilog;
 using testApp.Models;
 
@@ -35,7 +36,7 @@ public class AddressController : ControllerBase
             _logger.Error(ex.Message);
         }
 
-        return Ok(address);
+        return Ok(JsonConvert.SerializeObject(address));
     }
     
     [HttpGet("cleanDto-{source}")]
@@ -53,7 +54,7 @@ public class AddressController : ControllerBase
             _logger.Error(ex.Message);
         }
 
-        return Ok(addressDto);
+        return Ok(JsonConvert.SerializeObject(addressDto));
     }
 }
 
