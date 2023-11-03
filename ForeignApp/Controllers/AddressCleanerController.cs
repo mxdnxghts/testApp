@@ -7,18 +7,29 @@ namespace ForeignApp.Controllers;
 [ApiController]
 public class AddressCleanerController : ControllerBase
 {
-    private readonly HttpClient _client;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public AddressCleanerController(HttpClient client)
+    public AddressCleanerController(IHttpClientFactory httpClientFactory)
     {
-        _client = client;
+        _httpClientFactory = httpClientFactory;
     }
 
     [HttpGet("clean-{source}")]
     public async Task<IActionResult> GetAddress(string source)
     {
-        var request = await _client.GetStringAsync($"https://localhost:44360/clean-{source}");
-        return Ok(request);
+        var httpClient = _httpClientFactory.CreateClient("CleanerFull");
+        var httpResponseMessage = await httpClient.GetAsync($"{httpClient.BaseAddress}{source}");
+        var response = await httpResponseMessage.Content.ReadAsStringAsync();
+        return Ok(response);
+    }
+
+    [HttpGet("cleanDto-{source}")]
+    public async Task<IActionResult> GetAddressDto(string source)
+    {
+        var httpClient = _httpClientFactory.CreateClient("CleanerDto");
+        var httpResponseMessage = await httpClient.GetAsync($"{httpClient.BaseAddress}{source}");
+        var response = await httpResponseMessage.Content.ReadAsStringAsync();
+        return Ok(response);
     }
 }
 

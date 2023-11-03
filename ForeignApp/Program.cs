@@ -7,7 +7,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped(sp => new HttpClient());
+builder.Services.AddHttpClient("CleanerFull", client =>
+{
+    client.BaseAddress = new Uri($"{builder.Configuration.GetRequiredSection("WebCleanerUri").Value}clean-");
+});
+
+builder.Services.AddHttpClient("CleanerDto", client =>
+{
+    client.BaseAddress = new Uri($"{builder.Configuration.GetRequiredSection("WebCleanerUri").Value}cleanDto-");
+});
 
 var app = builder.Build();
 
