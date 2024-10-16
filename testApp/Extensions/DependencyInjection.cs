@@ -3,7 +3,6 @@ using Dadata;
 using Serilog;
 using AutoMapper;
 using Dadata.Model;
-using testApp.DaData;
 using testApp.Models;
 
 namespace testApp.Extensions;
@@ -23,9 +22,6 @@ public static class DependencyInjection
         {
             mc.CreateMap<Address, AddressDTO>();
         }).CreateMapper());
-
-        services.AddScoped<ICleaner<DaDataPackageCleaner>>();
-        services.AddScoped<ICleaner<DaDataHttpCleaner>>();
 
         return services;
     }
